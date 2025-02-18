@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Create a view for the State Objects """
+""" Create a view for the Amenity Objects """
 
 
 from models import storage
@@ -10,7 +10,7 @@ from flask import jsonify, request, abort
 
 @app_views.route("/amenities", methods=["GET"])
 def all_amenities():
-    """ Retrieve all State objects """
+    """ Retrieve all Amenity objects """
     amenities = storage.all(Amenity)
     amenity_list = [amenity.to_dict() for amenity in amenities.values()]
     return jsonify(amenity_list)
@@ -18,7 +18,7 @@ def all_amenities():
 
 @app_views.route("/amenities/<amenity_id>", methods=["GET"])
 def one_amenity(amenity_id):
-    """ Retrieves a State Object """
+    """ Retrieves a Amenity Object """
     amenities = storage.get(Amenity, amenity_id)
     if not amenities:
         abort(404)
@@ -27,7 +27,7 @@ def one_amenity(amenity_id):
 
 @app_views.route("/amenities/<amenity_id>", methods=["DELETE"])
 def delete_amenity(amenity_id):
-    """ Retrieves a State Object """
+    """ Retrieves a Amenity Object """
     one_amenity = storage.get(Amenity, amenity_id)
     if not one_amenity:
         abort(404)
