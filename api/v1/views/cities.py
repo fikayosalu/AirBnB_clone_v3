@@ -41,11 +41,12 @@ def create_city(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    json_data = request.get_json()
-    if not json_data:
-        abort(400, "Not a JSON")
+    try:
+        json_data = request.get_json()
+    except Exception:
+        return jsonify({"error": "Not a JSON"}), 400
     if "name" not in json_data:
-        abort(400, "Missing name")
+        return jsonify({"error": "Missing name"}), 400
     new_city = City(name=json_data["name"], state_id=state_id)
     storage.new(new_city)
     storage.save()
@@ -58,10 +59,10 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-
-    json_data = request.get_json()
-    if not json_data:
-        abort(400, "Not a JSON")
+    try:
+        json_data = request.get_json()
+    except Exception:
+        return jsonify({"error": "Not a JSON"}), 400
 
     ignored_keys = {"id", "state_id", "created_at", "updated_at"}
     for key, value in json_data.items():
